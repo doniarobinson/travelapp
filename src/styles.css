@@ -14,16 +14,16 @@ html {
 body {
   margin: 0;
   padding: 0;
+  background-color: #f7f0e9;
 }
 
 h2,
 h3 {
-  font-weight: normal;
+  flex: 0 0 100%;
 }
 
 .App {
   font-family: sans-serif;
-  padding-left: 10px;
 }
 
 .searchForm {
@@ -33,7 +33,6 @@ h3 {
 }
 
 .locationContainer {
-  /*background-color: pink;*/
   padding: 10px;
   flex: 3 1 var(--small-breakpoint);
   display: flex;
@@ -50,33 +49,47 @@ h3 {
 }
 
 .keywordContainer {
-  /*background-color: green;*/
   padding: 10px;
   flex: 2 1 auto;
+}
+
+.submitBtn {
+  display: block;
+  margin-top: 10px;
+  padding: 2px 15px;
+  background-color: #0c4261;
+  color: white;
 }
 
 .resultsContainer {
   display: flex;
   flex-wrap: wrap;
+  background-color: #0c4261;
 }
 
 .cardContainer {
-  margin-top: 5px;
-  border: 1px black solid;
-  box-shadow: 0 3px 5px #cccccc;
+  padding: 50px 150px 0 150px;
   flex: 1 0 100%;
   display: flex;
 }
 
+.cardContainer:last-child {
+  padding-bottom: 50px;
+}
+
 .left {
   padding: 10px;
-  flex: 0 0 400px;
+  flex: 0 0 var(--small-breakpoint);
+  background-color: #f7f0e9;
 }
+
 .right {
   padding: 10px;
   flex: 1 1;
+  background-color: #00ffe0;
 }
 
 .message {
+  padding-left: 20px;
   color: red;
 }

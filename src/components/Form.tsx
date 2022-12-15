@@ -30,9 +30,6 @@ export default function Form() {
     { locName: "Broken Coordinatesville, USA", coordinates: "35.000" },
   ];
 
-  const restOfUrl = "/maps/api/place/nearbysearch/json?q=proxy";
-  const apiKey = "AIzaSyDIb6tuC5IBX5yf8pYBMs_hLkZicqDHZ9k";
-
   const validateLocationInput = (coordinates: string) => {
     // we'll likely want to do even more validation than this, so let's abstract this out
     if (!coordinates.includes(",")) {
@@ -43,9 +40,10 @@ export default function Form() {
 
   const makeApiCall = () => {
     const coordinates = location.replace(" ", "");
-    const url = `${restOfUrl}&location=${coordinates}&keyword=${keywords}&radius=1500&key=${apiKey}`;
 
     // fully qualified domain name is in package.json as proxy to handle CORS issues
+    const url = `/maps/api/place/nearbysearch/json?q=proxy&location=${coordinates}&keyword=${keywords}&radius=1500&key=AIzaSyDIb6tuC5IBX5yf8pYBMs_hLkZicqDHZ9k`;
+
     const config = {
       method: "get",
       url: url,
@@ -88,7 +86,7 @@ export default function Form() {
     setKeywords(event.target.value);
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
 
     if (!validateLocationInput(location)) {
@@ -125,8 +123,14 @@ export default function Form() {
 
           <div className="keywordContainer">
             <h2>Search</h2>
-            <input type="text" name="keyword" onChange={handleKeywordChange} />
-            <input type="submit" value="Search" />
+            <input
+              type="text"
+              name="keyword"
+              aria-label="keywordSearch"
+              placeholder="hiking"
+              onChange={handleKeywordChange}
+            />
+            <input type="submit" value="Search" className="submitBtn" />
           </div>
         </section>
       </form>
