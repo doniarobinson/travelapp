@@ -1,0 +1,44 @@
+:root {
+  --small-breakpoint: 576px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  font-family: sans-serif;
+}
+
+.searchForm {
+  display: flex;
+  flex-flow: wrap;
+}
+
+.locationContainer {
+  background-color: pink;
+  padding: 10px;
+  flex: 3 1 var(--small-breakpoint);
+  display: flex;
+  flex-flow: wrap;
+}
+
+.locationList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.location {
+  flex: 1 1 calc(var(--small-breakpoint) / 2);
+}
+
+.keywordContainer {
+  background-color: green;
+  padding: 10px;
+  flex: 2 1 auto;
+}
+
+.errorMessage {
+  color: red;
+}
