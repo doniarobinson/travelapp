@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Card from "./Card";
 
 export default function Form() {
   type RadioProps = {
@@ -9,12 +10,13 @@ export default function Form() {
 
   type ResultsProps = {
     name: string;
-    address: string;
+    vicinity: string;
     rating: string;
   };
 
-  const [locState, setLocation] = React.useState("");
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [location, setLocation] = React.useState("");
+  const [keywords, setKeywords] = React.useState("");
+  const [message, setMessage] = React.useState("");
   const [results, setResults] = React.useState([]);
   const locations = [
     { locName: "Snowmass, CO", coordinates: "39.2130, -106.9378" },
@@ -39,34 +41,9 @@ export default function Form() {
     return true;
   };
 
-  const displayError = (errorMsg: string) => {
-    setErrorMessage(errorMsg);
-    // lets clear out the results so it's not confusing to the user
-    setResults([]);
-  };
-
-  const onFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value;
-    let searchParam = "location";
-
-    // turn into switch if form gets bigger
-    if (event.target.name.includes(searchParam)) {
-      // change radio button value
-      setLocation(value);
-      if (!validateLocationInput(value)) {
-        displayError(
-          "The location you entered is not valid. Please try again."
-        );
-        return;
-      }
-      // remove the space from the location
-      value = value.replace(" ", "");
-    } else {
-      //setKeywords(value);
-    }
-
-    const url = `${restOfUrl}&${searchParam}=${value}&radius=1500&key=${apiKey}`;
-    console.log(url);
+  const makeApiCall = () => {
+    const coordinates = location.replace(" ", "");
+    const url = `${restOfUrl}&location=${coordinates}&keyword=${keywords}&radius=1500&key=${apiKey}`;
 
     // fully qualified domain name is in package.json as proxy to handle CORS issues
     const config = {
@@ -77,11 +54,16 @@ export default function Form() {
 
     axios(config)
       .then((res) => {
-        setErrorMessage("");
+        setMessage("");
         // only keep 20 results
         let apiResults = res.data.results.slice(0, 20);
         // update results state variable
         setResults(apiResults);
+        if (apiResults.length === 0) {
+          setMessage(
+            "There were no results for that search. Please try again."
+          );
+        }
       })
       .catch(function (error) {
         displayError(
@@ -91,23 +73,48 @@ export default function Form() {
       });
   };
 
+  const displayError = (msg: string) => {
+    setMessage(msg);
+    // lets clear out the results so it's not confusing to the user
+    setResults([]);
+  };
+
+  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let coordinates = event.target.value;
+    setLocation(coordinates);
+  };
+
+  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKeywords(event.target.value);
+  };
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+
+    if (!validateLocationInput(location)) {
+      displayError("The location you entered is not valid. Please try again.");
+    } else {
+      makeApiCall();
+    }
+  };
+
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <section className="searchForm">
           <div className="locationContainer">
             <h2>Select a Location</h2>
             <div className="locationList">
               {locations.map(({ locName, coordinates }: RadioProps) => (
-                <div className="location" key={coordinates}>
+                <div className="locationItem" key={coordinates}>
                   <label>
                     <input
                       type="radio"
                       name="locationInput"
                       key={coordinates}
                       value={coordinates}
-                      checked={locState === coordinates}
-                      onChange={onFormChange}
+                      checked={location === coordinates}
+                      onChange={handleLocationChange}
                     />
                     {locName}
                   </label>
@@ -118,15 +125,16 @@ export default function Form() {
 
           <div className="keywordContainer">
             <h2>Search</h2>
-            <input type="text" name="keyword" onChange={onFormChange} />
+            <input type="text" name="keyword" onChange={handleKeywordChange} />
+            <input type="submit" value="Search" />
           </div>
         </section>
       </form>
 
-      <span className="errorMessage">{errorMessage}</span>
+      <span className="message">{message}</span>
       <div className="resultsContainer">
-        {results.map(({ name, address, rating }: ResultsProps) => (
-          <p>{name}</p>
+        {results.map(({ name, vicinity, rating }: ResultsProps) => (
+          <Card name={name} vicinity={vicinity} rating={rating} />
         ))}
       </div>
     </>

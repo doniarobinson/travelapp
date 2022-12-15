@@ -1,17 +1,19 @@
 type CardProps = {
   name: string;
-  address: string;
+  vicinity: string;
   rating: string;
 };
 
-export default function Card({ name, address, rating }: CardProps) {
+export default function Card({ name, vicinity, rating }: CardProps) {
   return (
-    <div className="container">
+    <div className="cardContainer">
       <div className="left">
-        {name}
-        {address}
+        <h3>{name}</h3>
+        <p>{vicinity}</p>
       </div>
-      <div className="right">{rating}</div>
+      <div className="right">
+        <h3>{rating}</h3>
+      </div>
     </div>
   );
 }

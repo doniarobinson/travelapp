@@ -2,22 +2,38 @@
   --small-breakpoint: 576px;
 }
 
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   padding: 0;
 }
 
+h2,
+h3 {
+  font-weight: normal;
+}
+
 .App {
   font-family: sans-serif;
+  padding-left: 10px;
 }
 
 .searchForm {
   display: flex;
   flex-flow: wrap;
+  margin-bottom: 10px;
 }
 
 .locationContainer {
-  background-color: pink;
+  /*background-color: pink;*/
   padding: 10px;
   flex: 3 1 var(--small-breakpoint);
   display: flex;
@@ -29,16 +45,38 @@ body {
   flex-wrap: wrap;
 }
 
-.location {
+.locationItem {
   flex: 1 1 calc(var(--small-breakpoint) / 2);
 }
 
 .keywordContainer {
-  background-color: green;
+  /*background-color: green;*/
   padding: 10px;
   flex: 2 1 auto;
 }
 
-.errorMessage {
+.resultsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cardContainer {
+  margin-top: 5px;
+  border: 1px black solid;
+  box-shadow: 0 3px 5px #cccccc;
+  flex: 1 0 100%;
+  display: flex;
+}
+
+.left {
+  padding: 10px;
+  flex: 0 0 400px;
+}
+.right {
+  padding: 10px;
+  flex: 1 1;
+}
+
+.message {
   color: red;
 }
