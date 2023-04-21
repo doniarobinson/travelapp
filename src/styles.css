@@ -68,8 +68,8 @@ h3 {
 }
 
 .cardContainer {
-  padding: 50px 150px 0 150px;
-  flex: 1 0 100%;
+  padding: 50px 75px 0 75px;
+  flex: 1 1 var(--small-breakpoint);
   display: flex;
 }
 
@@ -79,13 +79,14 @@ h3 {
 
 .left {
   padding: 10px;
-  flex: 0 0 var(--small-breakpoint);
+  flex: 0 0 85%;
   background-color: #f7f0e9;
 }
 
 .right {
-  padding: 10px;
-  flex: 1 1;
+  padding-top: 10px;
+  text-align: center;
+  flex: 1;
   background-color: #00ffe0;
 }
 
